@@ -1,0 +1,14 @@
+Actividad HU HospitalTarea :
+
+Como tarea práctica de inducción, teniendo ya algunos conocimientos adquiridos de los últimos días te pido que nos ayudes 
+en forma intuitiva a generar  casos de prueba a partir de leer las Historias de Usuario que recibimos de uno de nuestros clientes nuevos.
+Se trata de un Hospital al que se le está desarrollando un sitio web con varias funcionalidades.
+
+No te preocupes! Sé que es una tarea bastante sofisticada para un perfil que acaba de ingresar, pero puede ser un buen ejercicio para comenzar 
+a aprender "haciendo". 
+
+Dentro de este folder encontrarás:
+
+Un pdf con una explicación cortita sobre las Historias de Usuario y un ejemplo práctico
+Un archivo en excel , ahi podrás ver las historias de usuario de acuerdo a cada rol.
+Utiliza el archivo " Ejemplo Historias de Usuario Hospital2.xls " para escribir tus casos de prueba.

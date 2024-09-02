@@ -1,0 +1,2 @@
+_Por favor elabora los casos de prueba que creas necesario elaborar , 
+tratando de cubir el funcionamiento del cajero automatico, segun el siguiente diagrama.

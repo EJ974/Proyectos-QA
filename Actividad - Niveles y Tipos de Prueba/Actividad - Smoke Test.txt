@@ -1,0 +1,7 @@
+Realizar una Smoke test para asegurarte de la funcionalidad del sistema.
+Elaborar la matriz de casos de pruebas ( Asegurate de  abordar toda la 
+funcionalidad del sistema) identificando los flujos principales y los secundarios.
+
+_Los Flujos Principales deberan ser clasificados con prioridad Alta
+_Los Flujos Secundarios con Prioridad Media 
+_Flujos referentes a publicación en rrss  serán catalogados como prioridad Baja

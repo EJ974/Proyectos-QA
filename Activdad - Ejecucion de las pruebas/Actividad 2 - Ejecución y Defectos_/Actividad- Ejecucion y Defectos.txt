@@ -1,0 +1,20 @@
+Es hora de poner en practica la Ejecición de nuestras pruebas
+
+primero lo haremos con las matrices que ya hemos elaborado, en este caso debemos:
+
+1) Tomar los casos de prueba de PetStore. 
+
+2) Trata de editar tus casos de prueba de tal manera que se transformen un poco mas a escenarios de prueba 
+( En la medida de lo posilbe, tanto como puedas)
+
+3) Ahora sí, abrí la página https://petstore.octoperf.com/actions/Catalog.action y comenzar a ejecutar los 
+escenarios de prueba.
+
+4) Identificá los resultados Obtenidos y agregalos en tu matriz.
+
+5) Si difieren con los Resultados esperados, generá un Defecto en la planilla de Defectos. Siempre usá una 
+distinta (planilla o solapa) para cada prueba.
+
+6) Generá un documento con las evidencias.
+
+Subí los archivos correspondientes para ser corregidos.

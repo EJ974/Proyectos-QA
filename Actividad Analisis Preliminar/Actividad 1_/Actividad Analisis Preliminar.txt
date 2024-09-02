@@ -1,0 +1,14 @@
+Como hemos platicado a lo largo  del módulo, hay oportunidades donde no se cuenta ni con Historias de Usuario
+ ni con otro tipo de Documentación. En esos casos se sugiere entre otras cosas, realizar un Análisis Preliminar
+ y con eso, luego, diseñar los Casos de Prueba. 
+
+Por eso, la presente actividad tiene por objetivo poner en practica el Análsiis Preliminar para conocer la aplicación
+y tener una mejor idea de los casos de prueba que debemos diseñar.
+
+¿Que debemos hacer?
+
+Identifica a tu equipo.
+
+1.Lean el documento adjunto que corresponde para su equipo.
+2.Trabajen para Identificar como equipo cada uno de los puntos expuestos en el documento.
+3.Elaboren un documento final y súbanlo en el área de entregables. Deben entregar 1 solo documento como equipo.

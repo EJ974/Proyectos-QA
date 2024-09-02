@@ -1,0 +1,20 @@
+Ahora que ya conoces las técnicas para elaborar casos de prueba enfocados a validar y verificar los requiermientos, 
+vamos a ponerlos en práctica.
+
+¡Recuerdas la web de la Actividad #1 ( Analisis Preliminar)? 
+
+Reúnete con tu equipo para diseñar los casos de prueba  en base a las técnicas de variables de Juego ( valores, interesantes, 
+valores límite, equivalencias, particiones, etc ..)
+
+ Entonces:
+
+1.- Lista dentro de la matriz de pruebas todos los flujos principales que ya sabes que deberás probar a partir de lo analizado 
+y agrega la prioridad de cada uno de ellos. 
+
+Recordá que las funciones principales a nivel negocio, llevan prioridad 1.
+
+2.- Agrega  casos de prueba que surgen de interacciones.
+
+3.- Agrega casos de prueba que surgen de analizar variables y valores interesantes. 
+
+Recordá que si necesitás probar con diferentes datos (excluyentes) entonces son casos distintos.

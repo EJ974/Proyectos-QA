@@ -1,0 +1,14 @@
+
+========================EPICA EQUIPO 5 ======================
+Nuestro cliente, una cafeteria.Necesitan una aplicación donde se guarden los siguientes datos:
+
+
+Cliente por nombre ( longutud 50 ), Numero de tarjeta ( longitud 16 dígitos )
+
+Tabla Menu con el nombre del producto( 50 ) y el precio ( hasta 3 dígitos y 2 decimales )
+
+La Orden realizada en el establecimiento  con el nombre del cliente, el producto que se pidió,
+precio ,tipo de entrega realizada(mesa o take away))
+
+Para el tipo de entrega realizada es necesario registrarlos en un combo list para que el cajero llene el formulario de orden
+los tipos de entrega se despleguen de la lista y NO ingresarlos manualmente.
