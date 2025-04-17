@@ -44,7 +44,7 @@ El objetivo de este proyecto es aplicar de forma práctica los conocimientos adq
 Podés encontrarme en:
 
 - 📧 gaunaesteban983@gmail.com
-- 💼 [LinkedIn](www.linkedin.com/in/esteban-joel-maldonado-gauna-qa)
+- 💼 [LinkedIn](www.linkedin.com/in/esteban-joel-maldonado-gauna-qa) 
 
 ---
 
