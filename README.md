@@ -3,7 +3,7 @@ My Primer repositorio de Testing
 
 # 🧪 Bootcamp QA / Actividades de Testing
 
-¡Bienvenido al repositorio de mis actividades realizadas durante el Bootcamp de QA del programa Argentina Programa! ademas de ejercicios a modo de Practica.
+Bienvenido al repositorio de mis actividades realizadas durante diferentes Bootcamps de QA que tuve el placer de realizar, ademas de ejercicios a modo de Practica sobre automatizacion y el uso de diferentes herramientas de testing.
 
 Cada carpeta incluye:
 
