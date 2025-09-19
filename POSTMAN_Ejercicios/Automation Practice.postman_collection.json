@@ -1,0 +1,643 @@
+{
+	"info": {
+		"_postman_id": "62c7a5d3-19ca-4fcb-97d7-4b5821d8276d",
+		"name": "Automation Practice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44799029",
+		"_collection_link": "https://qa4444-6666.postman.co/workspace/My-Test-QA~5a8f4428-22d2-42ce-bc5c-37d5bb5a2785/collection/44799029-62c7a5d3-19ca-4fcb-97d7-4b5821d8276d?action=share&source=collection_link&creator=44799029"
+	},
+	"item": [
+		{
+			"name": "API 1: Obtener toda la Lista de Productos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://automationexercise.com/api/productsList",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"productsList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 2: POST A Todos los Productos Lista",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://automationexercise.com/api/productsList",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"productsList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 3: Get All Brands List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the response schema for required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.id).to.exist;\r",
+							"    pm.expect(responseData.category).to.exist;\r",
+							"    pm.expect(responseData.name).to.exist;\r",
+							"    pm.expect(responseData.photoUrls).to.exist;\r",
+							"    pm.expect(responseData.tags).to.exist;\r",
+							"    pm.expect(responseData.status).to.exist;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Id should be a non-negative integer\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData.id).to.be.a('number').and.to.be.at.least(0, \"Id should be a non-negative integer\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Category id should be a non-negative integer\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData.category.id).to.be.a('number').and.to.be.at.least(0, \"Category id should be a non-negative integer\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Name should be a non-empty string\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"PhotoUrls should be a non-empty array\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData.photoUrls).to.be.an('array').and.to.have.lengthOf.at.least(1, \"PhotoUrls should not be empty\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Tags should be a non-empty array\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    responseData.tags.forEach(function(tag) {\r",
+							"        pm.expect(tag.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Tag name should not be empty\");\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/brandsList",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"brandsList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 4: PUT To All Brand List",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "https://automationexercise.com/api/brandsList",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"brandsList"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 5: POST To Search Product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code es 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"La lista de productos no está vacía\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.products.length).to.be.above(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Cada producto tiene nombre y precio\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    jsonData.products.forEach(function(product){\r",
+							"        pm.expect(product.name).to.exist;\r",
+							"        pm.expect(product.price).to.exist;\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "search_product",
+							"value": "jean",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/searchProduct",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"searchProduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 6: POST To Searched products list",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://automationexercise.com/api/searchProduct",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"searchProduct"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 7: POST To Verify with valid details",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "scar97@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "ScarfaceUltra1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/verifyLogin",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"verifyLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 8: POST To Verify Login without email parameter",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "ScarfaceUltra1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/verifyLogin",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"verifyLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 9: DELETE To Verify Login",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://automationexercise.com/api/verifyLogin",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"verifyLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 10: POST To Verify Login with invalid details",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "scar97@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "ScarfaceUltra1234567",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/verifyLogin",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"verifyLogin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 11: POST To Create/Register User Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Roberto",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "robert97@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "ScarfaceUltra1234",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Mr",
+							"type": "text"
+						},
+						{
+							"key": "birth_date",
+							"value": "24",
+							"type": "text"
+						},
+						{
+							"key": "birth_month",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "birth_year",
+							"value": "1997",
+							"type": "text"
+						},
+						{
+							"key": "firstname",
+							"value": "Roberto",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "Angel",
+							"type": "text"
+						},
+						{
+							"key": "company",
+							"value": "Gun Shop",
+							"type": "text"
+						},
+						{
+							"key": "address1",
+							"value": "Adress",
+							"type": "text"
+						},
+						{
+							"key": "address2",
+							"value": "Adress2",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "United States",
+							"type": "text"
+						},
+						{
+							"key": "zipcode",
+							"value": "1234",
+							"type": "text"
+						},
+						{
+							"key": "state",
+							"value": "StateEjemplo",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "CityEjemplo",
+							"type": "text"
+						},
+						{
+							"key": "mobile_number",
+							"value": "3794774419",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/createAccount",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"createAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 12: DELETE METHOD To Delete User Account",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "robert97@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "ScarfaceUltra1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/deleteAccount",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"deleteAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 13: PUT METHOD To Update User Account",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "Esteban",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "scar97@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "ScarfaceUltra1234",
+							"type": "text"
+						},
+						{
+							"key": "birth_date",
+							"value": "24",
+							"type": "text"
+						},
+						{
+							"key": "birth_month",
+							"value": "4",
+							"type": "text"
+						},
+						{
+							"key": "birth_year",
+							"value": "1997",
+							"type": "text"
+						},
+						{
+							"key": "firstname",
+							"value": "Esteban",
+							"type": "text"
+						},
+						{
+							"key": "lastname",
+							"value": "Joel",
+							"type": "text"
+						},
+						{
+							"key": "company",
+							"value": "Scar Solutions",
+							"type": "text"
+						},
+						{
+							"key": "address1",
+							"value": "Adress",
+							"type": "text"
+						},
+						{
+							"key": "address2",
+							"value": "Adress2",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "Argentina",
+							"type": "text"
+						},
+						{
+							"key": "zipcode",
+							"value": "3400",
+							"type": "text"
+						},
+						{
+							"key": "state",
+							"value": "Corrientes",
+							"type": "text"
+						},
+						{
+							"key": "city",
+							"value": "Corrientes",
+							"type": "text"
+						},
+						{
+							"key": "mobile_number",
+							"value": "3794774418",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/updateAccount",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"updateAccount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API 14: GET user account detail by email",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://automationexercise.com/api/getUserDetailByEmail?email=scar97@gmail.com",
+					"protocol": "https",
+					"host": [
+						"automationexercise",
+						"com"
+					],
+					"path": [
+						"api",
+						"getUserDetailByEmail"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "scar97@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
