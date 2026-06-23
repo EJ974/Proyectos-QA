@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import pdf from 'pdf-parse';
 
-test.describe('Modulo Prestamos', () => {
+test.describe('Modulo PagoServicio', () => {
 
   test.beforeEach(async ({ page }) => {
 

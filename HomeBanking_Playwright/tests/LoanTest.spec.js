@@ -310,7 +310,7 @@ test('CP-LOAN-05 - Desistimiento Exitoso', async ({ page }) => {
   });
 
 
-  test.only('CP-LOAN-06 - Desistimiento - Saldo Insuficiente', async ({ page }) => {
+  test('CP-LOAN-06 - Desistimiento - Saldo Insuficiente', async ({ page }) => {
 
   // Reset demo
     await page.locator('#reset-demo-btn').click();

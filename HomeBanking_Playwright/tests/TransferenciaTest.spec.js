@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Modulo Prestamos', () => {
+test.describe('Modulo Transferencia', () => {
 
   test.beforeEach(async ({ page }) => {
 
