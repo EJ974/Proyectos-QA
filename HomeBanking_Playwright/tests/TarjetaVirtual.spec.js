@@ -147,7 +147,7 @@ test.describe('Modulo TarjetaVirtual', () => {
 // =========================================================
 // CP-CARD-03: Validación Visual
 // =========================================================
-test.only('CP-CARD-03: Validación Visual', async ({ page }) => {
+test('CP-CARD-03: Validación Visual', async ({ page }) => {
 
   // Ir a Tarjetas Virtuales
   await page.locator('li')

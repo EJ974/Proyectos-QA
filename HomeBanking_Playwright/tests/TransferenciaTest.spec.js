@@ -186,7 +186,7 @@ await expect(
   // CP-LOAN-04 - Validación CBU Inválido
   // =========================================================
 
-  test.only('CP-TRF-04 - Validación CBU Inválido', async ({ page }) => {
+  test('CP-TRF-04 - Validación CBU Inválido', async ({ page }) => {
 
       // Ir a Transferencias
       await page.locator('li').filter({ hasText: 'Transferencias' }).click(); 

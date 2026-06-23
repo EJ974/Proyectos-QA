@@ -85,7 +85,7 @@ test('CP-DASH-03: Visualización Tarjeta Crédito', async ({ page }) => {
 });
 
 
-test.only('CP-DASH-04: Visualización Últimos Movimientos', async ({ page }) => {
+test('CP-DASH-04: Visualización Últimos Movimientos', async ({ page }) => {
 
   console.log('INICIO DE TEST CP-DASH-04');
 

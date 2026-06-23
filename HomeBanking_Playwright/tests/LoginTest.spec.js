@@ -201,7 +201,7 @@ test.describe('Modulo Login', () => {
   // =========================================================
 // CP-AUTH-07: Link Documento Funcional
 // =========================================================
-test.only('CP-AUTH-07: Link Documento Funcional', async ({ page }) => {
+test('CP-AUTH-07: Link Documento Funcional', async ({ page }) => {
 
   console.log('INICIO DE TEST CP-AUTH-07');
 

@@ -137,7 +137,7 @@ test.describe('Modulo PagoServicio', () => {
   // =========================================================
   // CP-SERV-02: Saldo Insuficiente
   // =========================================================
-  test.only('CP-SERV-02: Saldo Insuficiente', async ({ page }) => {
+  test('CP-SERV-02: Saldo Insuficiente', async ({ page }) => {
 
     // Ir a Plazos Fijos
     await page.locator('li').filter({ hasText: 'Pago de Servicios' }).click();
