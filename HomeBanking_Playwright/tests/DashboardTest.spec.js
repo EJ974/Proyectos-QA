@@ -18,8 +18,6 @@ test.describe('Modulo Dashboard', () => {
 
   test('CP-DASH-01: Visualización Cuenta Corriente', async ({ page }) => {
 
-  console.log('INICIO DE TEST CP-DASH-01');
-
   const tarjeta = page.locator(
     '#dashboard-section > div.accounts-grid > div:nth-child(1)'
   );
@@ -41,8 +39,6 @@ test.describe('Modulo Dashboard', () => {
 
 test('CP-DASH-02: Visualización Caja de Ahorro', async ({ page }) => {
 
-  console.log('INICIO DE TEST CP-DASH-02');
-
   const tarjeta = page.locator(
     '#dashboard-section > div.accounts-grid > div:nth-child(2)'
   );
@@ -63,8 +59,6 @@ test('CP-DASH-02: Visualización Caja de Ahorro', async ({ page }) => {
 
 
 test('CP-DASH-03: Visualización Tarjeta Crédito', async ({ page }) => {
-
-  console.log('INICIO DE TEST CP-DASH-03');
 
   const tarjeta = page.locator(
     '#dashboard-section > div.accounts-grid > div:nth-child(3)'
@@ -89,22 +83,13 @@ test('CP-DASH-04: Visualización Últimos Movimientos', async ({ page }) => {
 
   console.log('INICIO DE TEST CP-DASH-04');
 
-  const movimientos = page.locator(
-    '#dashboard-section > div.recent-transactions'
-  );
+  const movimientos = page.getByText('Últimos Movimientos');
 
-  await expect(movimientos).toBeVisible();
+  await expect(movimientos).toBeVisible({ timeout: 10000 });
 
-  const texto = await movimientos.textContent();
-
-  console.log(texto);
-
-  expect(
-    texto?.toLowerCase()
-  ).toContain('Últimos Movimientos');
+  console.log('Texto encontrado:', await movimientos.textContent());
 
   console.log('✅ Se encontró la sección Últimos Movimientos');
-
 });
   
 

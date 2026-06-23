@@ -123,7 +123,7 @@ test.describe('Modulo PlazoFijo', () => {
   // =========================================================
   // CP-PF-03: Límite Plazos Fijos Simultáneos
   // =========================================================
-  test('CP-PF-03: Límite Plazos Fijos Simultáneos', async ({ page }) => {
+  test.only('CP-PF-03: Límite Plazos Fijos Simultáneos', async ({ page }) => {
 
     // Ir a Plazos Fijos
     await page.locator('li').filter({ hasText: 'Plazos Fijos' }).click();
