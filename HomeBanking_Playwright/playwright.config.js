@@ -5,19 +5,21 @@ export default defineConfig({
 
   testDir: './tests',
 
-  fullyParallel: true,
+  // 🔥 IMPORTANTE: evita conflictos entre tests en CI
+  fullyParallel: false,
 
   forbidOnly: !!process.env.CI,
 
   retries: process.env.CI ? 2 : 0,
 
+  // 🔥 clave para estabilidad en CI
   workers: process.env.CI ? 1 : undefined,
 
   reporter: 'html',
 
   use: {
 
-    // En GitHub headless, en local visible
+    // CI = headless / Local = visible
     headless: !!process.env.CI,
 
     viewport: null,
@@ -36,7 +38,8 @@ export default defineConfig({
 
     launchOptions: {
 
-      slowMo: process.env.CI ? 0 : 1000,
+      // CI rápido / local con delay para debug
+      slowMo: process.env.CI ? 0 : 500,
 
       args: ['--start-maximized'],
     },
@@ -45,7 +48,6 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-
       use: {
         browserName: 'chromium',
       },
