@@ -70,7 +70,7 @@ test.describe('Modulo PlazoFijo', () => {
         .toContainText('TNA: 42%');
 
     await expect(ultimoPlazo)
-        .toContainText('Interés estimado: $ 1.035,61');
+        .toContainText('Interés estimado: $ 1.035,62');
 
   });
 

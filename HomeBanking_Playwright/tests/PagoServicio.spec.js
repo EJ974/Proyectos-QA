@@ -95,7 +95,19 @@ test.describe('Modulo PagoServicio', () => {
     /N° Comprobante:\s*\d+/
     );
 
-    expect(texto).toContain('Fecha: 19/6/2026');
+    // Fecha actual
+    const fechaActual = new Date();
+
+    const fechaFormateada =
+      `${fechaActual.getDate()}/` +
+      `${fechaActual.getMonth() + 1}/` +
+      `${fechaActual.getFullYear()}`;
+
+    console.log('Fecha esperada:', fechaFormateada);
+
+    expect(texto).toContain(
+      `Fecha: ${fechaFormateada}`
+    );
 
     expect(texto).toContain(
     'Servicio: Pago por servicio de Internet'
