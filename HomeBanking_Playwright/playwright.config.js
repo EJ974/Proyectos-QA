@@ -17,19 +17,15 @@ export default defineConfig({
 
   use: {
 
-    // Mostrar navegador
-    headless: false,
+    // En GitHub headless, en local visible
+    headless: !!process.env.CI,
 
-    // Usa tamaño REAL de la ventana
     viewport: null,
 
-    // Grabar trace
     trace: 'on',
 
-    // Screenshots automáticos
     screenshot: 'on',
 
-    // Video FULL HD
     video: {
       mode: 'on',
       size: {
@@ -38,18 +34,14 @@ export default defineConfig({
       }
     },
 
-    // Hace más lenta la ejecución para verla
     launchOptions: {
 
-      slowMo: 1000,
+      slowMo: process.env.CI ? 0 : 1000,
 
-      // Abrir maximizado
       args: ['--start-maximized'],
-
     },
   },
 
-  // Navegador
   projects: [
     {
       name: 'chromium',
@@ -58,24 +50,5 @@ export default defineConfig({
         browserName: 'chromium',
       },
     },
-
-    /*
-    {
-      name: 'firefox',
-
-      use: {
-        browserName: 'firefox',
-      },
-    },
-
-    {
-      name: 'webkit',
-
-      use: {
-        browserName: 'webkit',
-      },
-    },
-    */
   ],
-
 });
