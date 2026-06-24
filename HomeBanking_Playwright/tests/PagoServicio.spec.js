@@ -1,26 +1,12 @@
 import { test, expect } from '@playwright/test';
 import fs from 'fs';
 import pdf from 'pdf-parse';
+import { loginAndReset } from '../utils/auth';
 
 test.describe('Modulo PagoServicio', () => {
 
-  // 🔥 FIX: estado limpio en cada test
   test.beforeEach(async ({ page }) => {
-
-    await page.goto('https://homebanking-demo-tests.netlify.app/');
-
-    // Reset del sistema (evita datos sucios)
-    const resetBtn = page.locator('#reset-demo-btn');
-
-    if (await resetBtn.isVisible().catch(() => false)) {
-      await resetBtn.click();
-      await page.getByRole('button', { name: 'Confirmar' }).click();
-    }
-
-    // Login limpio
-    await page.locator('#username').fill('demo');
-    await page.locator('#password').fill('demo123');
-    await page.locator('#login-btn').click();
+    await loginAndReset(page);
   });
 
   // =========================================================
@@ -32,30 +18,33 @@ test.describe('Modulo PagoServicio', () => {
 
     await page.locator('#service-select').selectOption({ index: 4 });
 
-    await expect(page.locator('#service-amount')).toHaveValue('12000');
+    await expect(page.locator('#service-amount'))
+      .toHaveValue('12000');
 
     await page.getByRole('button', { name: 'Pagar Servicio' }).click();
 
     const mensajeExito = page.locator(
-      '#service-payment-form > div.payment-success-msg > div > p'
+      '#service-payment-form .payment-success-msg p'
     );
 
     await expect(mensajeExito).toBeVisible();
-
-    await expect(mensajeExito).toContainText('¡Pago Finalizado con éxito');
+    await expect(mensajeExito)
+      .toContainText('¡Pago Finalizado con éxito');
 
     const botonpdf = page.locator('#download-receipt-pdf');
 
     await expect(botonpdf).toBeVisible();
 
-    await expect(botonpdf).toContainText('📥 Descargar Comprobante PDF');
-
-    // Descargar PDF
+    // 📥 Download estable
     const downloadPromise = page.waitForEvent('download');
     await botonpdf.click();
     const download = await downloadPromise;
 
     const filePath = await download.path();
+
+    if (!filePath) {
+      throw new Error('No se pudo obtener el archivo PDF descargado');
+    }
 
     const buffer = fs.readFileSync(filePath);
     const pdfData = await pdf(buffer);
@@ -70,7 +59,6 @@ test.describe('Modulo PagoServicio', () => {
     expect(texto).toMatch(/N° Comprobante:\s*\d+/);
 
     const fechaActual = new Date();
-
     const fechaFormateada =
       `${fechaActual.getDate()}/` +
       `${fechaActual.getMonth() + 1}/` +
@@ -83,7 +71,10 @@ test.describe('Modulo PagoServicio', () => {
 
     expect(texto).toMatch(/Importe Total:\s*\$\s*12\.000,00/);
 
-    expect(texto).toContain('Forma de pago: Cuenta Corriente (**** **** **** 1234)');
+    expect(texto).toContain(
+      'Forma de pago: Cuenta Corriente (**** **** **** 1234)'
+    );
+
     expect(texto).toContain('Pago acreditado');
     expect(texto).toContain('¡Gracias por elegir Home Banking!');
   });

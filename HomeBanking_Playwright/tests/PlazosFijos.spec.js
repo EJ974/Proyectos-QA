@@ -1,24 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { loginAndReset } from '../utils/auth';
 
 test.describe('Modulo PlazoFijo', () => {
 
-  // 🔥 FIX: estado limpio en cada test
   test.beforeEach(async ({ page }) => {
-
-    await page.goto('https://homebanking-demo-tests.netlify.app/');
-
-    // Reset del sistema (clave para CI estable)
-    const resetBtn = page.locator('#reset-demo-btn');
-
-    if (await resetBtn.isVisible().catch(() => false)) {
-      await resetBtn.click();
-      await page.getByRole('button', { name: 'Confirmar' }).click();
-    }
-
-    // Login limpio
-    await page.locator('#username').fill('demo');
-    await page.locator('#password').fill('demo123');
-    await page.locator('#login-btn').click();
+    await loginAndReset(page);
   });
 
   // =========================================================
@@ -33,11 +19,9 @@ test.describe('Modulo PlazoFijo', () => {
       .count();
 
     await page.locator('#deposit-amount').fill('10000');
-
     await page.locator('#deposit-term').selectOption({ index: 2 });
 
     await page.getByRole('button', { name: 'Crear Plazo Fijo' }).click();
-
     await page.getByRole('button', { name: 'Confirmar' }).click();
 
     await expect(
@@ -62,17 +46,18 @@ test.describe('Modulo PlazoFijo', () => {
     await page.locator('li').filter({ hasText: 'Plazos Fijos' }).click();
 
     await page.locator('#deposit-amount').fill('999');
-
     await page.locator('#deposit-term').selectOption({ index: 2 });
 
     await page.getByRole('button', { name: 'Crear Plazo Fijo' }).click();
 
-    const esValido = await page.locator('#deposit-amount')
+    const esValido = await page
+      .locator('#deposit-amount')
       .evaluate(el => el.checkValidity());
 
     expect(esValido).toBe(false);
 
-    const mensaje = await page.locator('#deposit-amount')
+    const mensaje = await page
+      .locator('#deposit-amount')
       .evaluate(el => el.validationMessage);
 
     expect(mensaje).toContain('mayor de o igual a 1000');
@@ -88,7 +73,6 @@ test.describe('Modulo PlazoFijo', () => {
     for (let i = 0; i < 4; i++) {
 
       await page.locator('#deposit-amount').fill('10000');
-
       await page.locator('#deposit-term').selectOption({ index: 2 });
 
       await page.getByRole('button', { name: 'Crear Plazo Fijo' }).click();
@@ -99,14 +83,11 @@ test.describe('Modulo PlazoFijo', () => {
         await confirmar.click();
       }
 
-      await page.waitForTimeout(1000);
+      await page.waitForTimeout(800);
     }
 
-    await expect(
-      page.locator('#deposit-error')
-    ).toContainText(
-      'No puedes tener más de 5 plazos fijos activos'
-    );
+    await expect(page.locator('#deposit-error'))
+      .toContainText('No puedes tener más de 5 plazos fijos activos');
   });
 
 });

@@ -1,21 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { loginAndReset } from '../utils/auth';
 
 test.describe('Modulo Dashboard', () => {
 
-  // 🔥 FIX: estado limpio en cada test
   test.beforeEach(async ({ page }) => {
-
-    // Ir a la app siempre
-    await page.goto('https://homebanking-demo-tests.netlify.app/');
-
-    // Reset del sistema (estado limpio)
-    await page.locator('#reset-demo-btn').click();
-    await page.getByRole('button', { name: 'Confirmar' }).click();
-
-    // Login limpio en cada test
-    await page.locator('#username').fill('demo');
-    await page.locator('#password').fill('demo123');
-    await page.locator('#login-btn').click();
+    await loginAndReset(page);
   });
 
   // =========================================================
@@ -28,12 +17,8 @@ test.describe('Modulo Dashboard', () => {
     );
 
     await expect(tarjeta).toBeVisible();
+    await expect(tarjeta).toContainText('cuenta corriente');
 
-    const texto = await tarjeta.textContent();
-
-    expect(texto?.toLowerCase()).toContain('cuenta corriente');
-
-    console.log('✅ Se encontró la tarjeta Cuenta Corriente');
   });
 
   // =========================================================
@@ -46,12 +31,8 @@ test.describe('Modulo Dashboard', () => {
     );
 
     await expect(tarjeta).toBeVisible();
+    await expect(tarjeta).toContainText('caja de ahorro');
 
-    const texto = await tarjeta.textContent();
-
-    expect(texto?.toLowerCase()).toContain('caja de ahorro');
-
-    console.log('✅ Se encontró la tarjeta Caja de Ahorro');
   });
 
   // =========================================================
@@ -64,12 +45,8 @@ test.describe('Modulo Dashboard', () => {
     );
 
     await expect(tarjeta).toBeVisible();
+    await expect(tarjeta).toContainText('tarjeta de crédito');
 
-    const texto = await tarjeta.textContent();
-
-    expect(texto?.toLowerCase()).toContain('tarjeta de crédito');
-
-    console.log('✅ Se encontró la tarjeta de Crédito');
   });
 
   // =========================================================
@@ -77,15 +54,11 @@ test.describe('Modulo Dashboard', () => {
   // =========================================================
   test('CP-DASH-04: Visualización Últimos Movimientos', async ({ page }) => {
 
-    const movimientos = page.getByText('Últimos Movimientos');
+    const movimientos = page.locator('#recent-transactions');
 
     await expect(movimientos).toBeVisible({ timeout: 10000 });
+    await expect(movimientos).toContainText('Movimientos');
 
-    const texto = await movimientos.textContent();
-
-    console.log('Texto encontrado:', texto);
-
-    console.log('✅ Se encontró la sección Últimos Movimientos');
   });
 
 });

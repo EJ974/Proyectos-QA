@@ -1,24 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { loginAndReset } from '../utils/auth';
 
 test.describe('Modulo TarjetaVirtual', () => {
 
-  // 🔥 FIX: estado limpio en cada test
   test.beforeEach(async ({ page }) => {
-
-    await page.goto('https://homebanking-demo-tests.netlify.app/');
-
-    // Reset del sistema (evita tarjetas duplicadas)
-    const resetBtn = page.locator('#reset-demo-btn');
-
-    if (await resetBtn.isVisible().catch(() => false)) {
-      await resetBtn.click();
-      await page.getByRole('button', { name: 'Confirmar' }).click();
-    }
-
-    // Login limpio
-    await page.locator('#username').fill('demo');
-    await page.locator('#password').fill('demo123');
-    await page.locator('#login-btn').click();
+    await loginAndReset(page);
   });
 
   // =========================================================
@@ -58,8 +44,6 @@ test.describe('Modulo TarjetaVirtual', () => {
 
       await page.getByRole('button', { name: '+ Generar Nueva Tarjeta' }).click();
 
-      await page.waitForTimeout(1500);
-
       const error = page.getByText(
         '❌ Esta cuenta ya posee una tarjeta virtual activa.'
       );
@@ -70,7 +54,6 @@ test.describe('Modulo TarjetaVirtual', () => {
       }
     }
 
-    // 🔥 FIX: ahora sí validamos resultado
     expect(mensajeEncontrado).toBeTruthy();
   });
 
@@ -89,7 +72,6 @@ test.describe('Modulo TarjetaVirtual', () => {
     await page.locator('#virtual-cards-list > div').click();
 
     await page.getByRole('button', { name: 'Eliminar' }).click();
-
     await page.getByRole('button', { name: 'Confirmar' }).click();
 
     await page.locator('#card-account-select')
@@ -100,7 +82,6 @@ test.describe('Modulo TarjetaVirtual', () => {
     const tarjeta = page.locator('#virtual-cards-list > div');
 
     await expect(tarjeta).toBeVisible();
-
     await expect(tarjeta).toContainText('TITULAR');
     await expect(tarjeta).toContainText('JUAN PÉREZ');
     await expect(tarjeta).toContainText('ACTIVA - VINCULADA A **** **** **** 5678');

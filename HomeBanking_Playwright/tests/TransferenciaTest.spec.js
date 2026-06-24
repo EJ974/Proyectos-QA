@@ -1,24 +1,10 @@
 import { test, expect } from '@playwright/test';
+import { loginAndReset } from '../utils/auth';
 
 test.describe('Modulo Transferencia', () => {
 
-  // 🔥 FIX: estado limpio en cada test
   test.beforeEach(async ({ page }) => {
-
-    await page.goto('https://homebanking-demo-tests.netlify.app/');
-
-    // Reset del sistema (clave para evitar saldo sucio)
-    const resetBtn = page.locator('#reset-demo-btn');
-
-    if (await resetBtn.isVisible().catch(() => false)) {
-      await resetBtn.click();
-      await page.getByRole('button', { name: 'Confirmar' }).click();
-    }
-
-    // Login limpio
-    await page.locator('#username').fill('demo');
-    await page.locator('#password').fill('demo123');
-    await page.locator('#login-btn').click();
+    await loginAndReset(page);
   });
 
   // =========================================================
@@ -34,7 +20,6 @@ test.describe('Modulo Transferencia', () => {
     await page.locator('#transfer-amount').fill('10000');
 
     await page.getByRole('button', { name: 'Transferir' }).click();
-
     await page.getByRole('button', { name: 'Confirmar' }).click();
 
     await page.locator('li').filter({ hasText: 'Inicio' }).click();
@@ -68,7 +53,6 @@ test.describe('Modulo Transferencia', () => {
     await page.locator('#transfer-amount').fill('50001');
 
     await page.getByRole('button', { name: 'Transferir' }).click();
-
     await page.getByRole('button', { name: 'Confirmar' }).click();
 
     await expect(page.locator('#transfer-error'))
@@ -87,8 +71,7 @@ test.describe('Modulo Transferencia', () => {
       await page.locator('#destination-own-account')
         .selectOption({ index: 1 });
 
-      await page.locator('#transfer-amount')
-        .fill('40000');
+      await page.locator('#transfer-amount').fill('40000');
 
       await page.getByRole('button', { name: 'Transferir' }).click();
 
@@ -114,14 +97,10 @@ test.describe('Modulo Transferencia', () => {
 
     await page.locator('li').filter({ hasText: 'Transferencias' }).click();
 
-    await page.locator('#transfer-type')
-      .selectOption({ index: 1 });
+    await page.locator('#transfer-type').selectOption({ index: 1 });
 
-    await page.locator('#destination-account-number')
-      .fill('1234');
-
-    await page.locator('#transfer-amount')
-      .fill('20000');
+    await page.locator('#destination-account-number').fill('1234');
+    await page.locator('#transfer-amount').fill('20000');
 
     await page.getByRole('button', { name: 'Transferir' }).click();
 
