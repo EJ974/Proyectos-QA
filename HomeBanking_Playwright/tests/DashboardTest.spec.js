@@ -12,12 +12,12 @@ test.describe('Modulo Dashboard', () => {
   // =========================================================
   test('CP-DASH-01: Visualización Cuenta Corriente', async ({ page }) => {
 
-    const tarjeta = page.locator(
-      '#dashboard-section > div.accounts-grid > div:nth-child(1)'
-    );
+    const tarjeta = page.locator('.account-card').filter({
+      hasText: 'Cuenta Corriente'
+    });
 
     await expect(tarjeta).toBeVisible();
-    await expect(tarjeta).toContainText('cuenta corriente');
+    await expect(tarjeta).toContainText('Cuenta Corriente');
 
   });
 
@@ -26,12 +26,12 @@ test.describe('Modulo Dashboard', () => {
   // =========================================================
   test('CP-DASH-02: Visualización Caja de Ahorro', async ({ page }) => {
 
-    const tarjeta = page.locator(
-      '#dashboard-section > div.accounts-grid > div:nth-child(2)'
-    );
+    const tarjeta = page.locator('.account-card').filter({
+      hasText: 'Caja de Ahorro'
+    });
 
     await expect(tarjeta).toBeVisible();
-    await expect(tarjeta).toContainText('caja de ahorro');
+    await expect(tarjeta).toContainText('Caja de Ahorro');
 
   });
 
@@ -40,12 +40,12 @@ test.describe('Modulo Dashboard', () => {
   // =========================================================
   test('CP-DASH-03: Visualización Tarjeta Crédito', async ({ page }) => {
 
-    const tarjeta = page.locator(
-      '#dashboard-section > div.accounts-grid > div:nth-child(3)'
-    );
+    const tarjeta = page.locator('.account-card').filter({
+      hasText: 'Tarjeta de Crédito'
+    });
 
     await expect(tarjeta).toBeVisible();
-    await expect(tarjeta).toContainText('tarjeta de crédito');
+    await expect(tarjeta).toContainText('Tarjeta de Crédito');
 
   });
 
@@ -57,7 +57,10 @@ test.describe('Modulo Dashboard', () => {
     const movimientos = page.locator('#recent-transactions');
 
     await expect(movimientos).toBeVisible({ timeout: 10000 });
-    await expect(movimientos).toContainText('Movimientos');
+
+    await expect(
+      page.getByText('Últimos Movimientos')
+    ).toBeVisible();
 
   });
 
