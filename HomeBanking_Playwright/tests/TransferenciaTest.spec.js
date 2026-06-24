@@ -92,7 +92,7 @@ test.describe('Modulo Transferencia', () => {
       .filter({ hasText: 'Transferencias' })
       .click();
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
 
       await page.locator('#destination-own-account')
         .selectOption({ index: 1 });

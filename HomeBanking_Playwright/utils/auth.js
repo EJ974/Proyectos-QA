@@ -18,11 +18,24 @@ export async function loginAndReset(page) {
   const resetBtn = page.locator('#reset-demo-btn');
 
   if (await resetBtn.isVisible().catch(() => false)) {
+
     await resetBtn.click();
-    await page.getByRole('button', { name: 'Confirmar' }).click();
+
+    const confirmar = page.getByRole('button', {
+      name: 'Confirmar'
+    });
+
+    await expect(confirmar).toBeEnabled({
+      timeout: 10000
+    });
+
+    await confirmar.click();
+
+    // esperar que termine el reset
+    await page.waitForTimeout(2000);
   }
 
-  await expect(page.locator('.account-card').first())
-    .toBeVisible({ timeout: 15000 });
-
+  await expect(
+    page.locator('.account-card').first()
+  ).toBeVisible({ timeout: 15000 });
 }

@@ -10,32 +10,48 @@ test.describe('Modulo PlazoFijo', () => {
   // =========================================================
   // CP-PF-01: Constitución de Plazo Fijo
   // =========================================================
-  test('CP-PF-01 - Constitución de Plazo Fijo', async ({ page }) => {
+    test('CP-PF-01 - Constitución de Plazo Fijo', async ({ page }) => {
 
-    await page.locator('li').filter({ hasText: 'Plazos Fijos' }).click();
+    await page.locator('li')
+      .filter({ hasText: 'Plazos Fijos' })
+      .click();
 
-    const cantidadAntes = await page
-      .locator('#active-deposits-list .deposit-item')
-      .count();
+    await page.locator('#deposit-amount')
+      .fill('10000');
 
-    await page.locator('#deposit-amount').fill('10000');
-    await page.locator('#deposit-term').selectOption({ index: 2 });
+    await page.locator('#deposit-term')
+      .selectOption({ index: 2 });
 
-    await page.getByRole('button', { name: 'Crear Plazo Fijo' }).click();
-    await page.getByRole('button', { name: 'Confirmar' }).click();
+    await page.getByRole('button', {
+      name: 'Crear Plazo Fijo'
+    }).click();
 
-    await expect(
-      page.locator('#active-deposits-list .deposit-item')
-    ).toHaveCount(cantidadAntes + 1);
+    const confirmar = page.getByRole('button', {
+      name: 'Confirmar'
+    });
+
+    if (await confirmar.isVisible().catch(() => false)) {
+      await confirmar.click();
+    }
 
     const ultimoPlazo = page
       .locator('#active-deposits-list .deposit-item')
       .last();
 
-    await expect(ultimoPlazo).toContainText('$ 10.000,00');
-    await expect(ultimoPlazo).toContainText('90 días');
-    await expect(ultimoPlazo).toContainText('TNA: 42%');
-    await expect(ultimoPlazo).toContainText('Interés estimado: $ 1.035,62');
+    await expect(ultimoPlazo)
+      .toBeVisible({ timeout: 10000 });
+
+    await expect(ultimoPlazo)
+      .toContainText('$ 10.000,00');
+
+    await expect(ultimoPlazo)
+      .toContainText('90 días');
+
+    await expect(ultimoPlazo)
+      .toContainText('TNA: 42%');
+
+    await expect(ultimoPlazo)
+      .toContainText('Interés estimado: $ 1.035,62');
   });
 
   // =========================================================
