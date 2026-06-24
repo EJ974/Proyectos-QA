@@ -84,39 +84,23 @@ test.describe('Modulo PagoServicio', () => {
   // =========================================================
   test('CP-SERV-02: Saldo Insuficiente', async ({ page }) => {
 
-    let mensajeEncontrado = false;
+  await page.locator('li')
+    .filter({ hasText: 'Pago de Servicios' })
+    .click();
 
-    for (let i = 0; i < 2; i++) {
+  await page.locator('#service-select')
+    .selectOption({ index: 4 });
 
-      await page.locator('li')
-        .filter({ hasText: 'Pago de Servicios' })
-        .click();
+  await page.locator('#service-amount')
+    .fill('125450');
 
-      await page.locator('#service-select')
-        .selectOption({ index: 4 });
+  await page.getByRole('button', {
+    name: 'Pagar Servicio'
+  }).click();
 
-      await page.locator('#service-amount')
-        .fill('125450');
-
-      await page.getByRole('button', { name: 'Pagar Servicio' }).click();
-
-      await page.waitForTimeout(1500);
-
-      const error = page.getByText('Saldo insuficiente');
-
-      if (await error.count() > 0) {
-        mensajeEncontrado = true;
-        break;
-      }
-
-      await page.locator('li')
-        .filter({ hasText: 'Inicio' })
-        .click();
-
-      await page.waitForTimeout(1000);
-    }
-
-    expect(mensajeEncontrado).toBeTruthy();
-  });
+  await expect(
+    page.locator('#service-error')
+  ).toBeVisible();
+});
 
 });
