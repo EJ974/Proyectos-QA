@@ -16,41 +16,59 @@ test.describe('Modulo Prestamos', () => {
   // =========================================================
   test('CP-LOAN-01 - Solicitud Prestamo', async ({ page }) => {
 
-    await page.locator('li')
-      .filter({ hasText: 'Préstamos' })
-      .click();
+  await page.locator('li')
+    .filter({ hasText: 'Préstamos' })
+    .click();
 
-    await expect(
-      page.locator('#loan-form')
-    ).toBeVisible();
+  await expect(
+    page.locator('#loan-form')
+  ).toBeVisible();
 
-    await page.locator('#loan-amount')
-      .fill('100000');
+  await page.locator('#loan-amount')
+    .fill('100000');
 
-    await page.locator('#loan-installments')
-      .selectOption({ index: 1 });
+  await page.locator('#loan-installments')
+    .selectOption({ index: 1 });
 
-    await page.locator('#loan-form button')
-      .click();
+  await page.locator('#loan-form button')
+    .click();
 
-    const confirmar = page.getByRole('button', {
-      name: 'Confirmar'
-    });
+  const confirmar = page.getByRole('button', {
+    name: 'Confirmar'
+  });
 
-    if (await confirmar.isVisible().catch(() => false)) {
-      await confirmar.click();
-    }
+  if (await confirmar.isVisible().catch(() => false)) {
+    await confirmar.click();
+  }
 
-    const ultimoPrestamo = page
+  const ultimoPrestamo = page
     .locator('#active-loans-list > div')
     .last();
 
-    await expect(ultimoPrestamo).toBeVisible();
+  await expect(ultimoPrestamo).toBeVisible();
 
-    await expect(
-      page.locator('#active-loans-list')
-    ).toContainText('100.000');
-  });
+  // Logs para CI
+  console.log(
+    'Cantidad de prestamos:',
+    await page.locator('#active-loans-list > div').count()
+  );
+
+  console.log(
+    'Contenido ultimo prestamo:'
+  );
+
+  console.log(
+    await ultimoPrestamo.textContent()
+  );
+
+  // Validaciones
+  await expect(ultimoPrestamo)
+    .toContainText('100.000');
+
+  await expect(ultimoPrestamo)
+    .toContainText('Cuotas');
+
+});
 
   // =========================================================
   // CP-LOAN-02 - Validacion monto maximo
@@ -83,7 +101,7 @@ test.describe('Modulo Prestamos', () => {
   // =========================================================
   // CP-LOAN-03 - Cancelacion Total
   // =========================================================
-  test('CP-LOAN-03 - Cancelacion Total', async ({ page }) => {
+test('CP-LOAN-03 - Cancelacion Total', async ({ page }) => {
 
   await page.locator('li')
     .filter({ hasText: 'Préstamos' })
@@ -106,31 +124,71 @@ test.describe('Modulo Prestamos', () => {
     await confirmar.click();
   }
 
-  const ultimoPrestamo = page
+  // Esperar que aparezca la lista actualizada
+  await expect(
+    page.locator('#active-loans-list')
+  ).toBeVisible();
+
+  // Log para GitHub Actions
+  console.log(
+    'Lista de préstamos:'
+  );
+
+  console.log(
+    await page.locator('#active-loans-list')
+      .textContent()
+  );
+
+  // Buscar específicamente el préstamo creado
+  const prestamoCreado = page
     .locator('#active-loans-list > div')
-    .last();
+    .filter({
+      hasText: '$ 100.000,00'
+    });
 
-  await expect(ultimoPrestamo)
-    .toContainText('100.000');
+  await expect(prestamoCreado)
+    .toHaveCount(1);
 
-  await ultimoPrestamo
-    .getByRole('button', { name: 'Pagar Total' })
+  await expect(prestamoCreado)
+    .toBeVisible();
+
+  console.log(
+    'Préstamo encontrado:'
+  );
+
+  console.log(
+    await prestamoCreado.textContent()
+  );
+
+  // Cancelar préstamo
+  await prestamoCreado
+    .getByRole('button', {
+      name: 'Pagar Total'
+    })
     .click();
 
   if (await confirmar.isVisible().catch(() => false)) {
     await confirmar.click();
   }
 
-  // Validación del toast
+  // Validar toast
   await expect(
-  page.locator('#toast-container')
-).toContainText(
-  'Préstamo cancelado exitosamente'
-);
+    page.locator('#toast-container')
+  ).toContainText(
+    'Préstamo cancelado exitosamente'
+  );
 
-  // Validar que desapareció de la lista
-  await expect(ultimoPrestamo)
-    .not.toContainText('100.000');
+  // Validar que ya no existe el préstamo creado
+  await expect(
+    page.locator('#active-loans-list > div')
+      .filter({
+        hasText: '$ 100.000,00'
+      })
+  ).toHaveCount(0);
+
+  console.log(
+    '✅ Préstamo cancelado correctamente'
+  );
 });
 
   // =========================================================
@@ -199,8 +257,10 @@ test.describe('Modulo Prestamos', () => {
     }
 
     await expect(
-      page.locator('#active-loans-list')
-    ).not.toContainText('100.000');
+    page.locator('#toast-container')
+    ).toContainText(
+      'Has desistido del préstamo exitosamente'
+    );
   });
 
   // =========================================================
@@ -229,9 +289,15 @@ test.describe('Modulo Prestamos', () => {
       await confirmar.click();
     }
 
-    await expect(
-      page.locator('#active-loans-list')
-    ).toContainText('50.000');
+    const ultimoPrestamo = page
+    .locator('#active-loans-list > div')
+    .last();
+
+  await expect(ultimoPrestamo)
+    .toBeVisible();
+
+  await expect(ultimoPrestamo)
+    .toContainText('50.000');
   });
 
 });

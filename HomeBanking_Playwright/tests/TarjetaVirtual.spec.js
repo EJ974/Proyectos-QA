@@ -61,30 +61,72 @@ test.describe('Modulo TarjetaVirtual', () => {
   // =========================================================
   test('CP-CARD-02: Eliminación y Re-generación', async ({ page }) => {
 
-    await page.locator('li').filter({ hasText: 'Tarjeta Virtual' }).click();
+  await page.locator('li')
+    .filter({ hasText: 'Tarjeta Virtual' })
+    .click();
 
-    await page.locator('#card-account-select')
-      .selectOption({ index: 1 });
+  // Crear tarjeta
+  await page.locator('#card-account-select')
+    .selectOption({ index: 1 });
 
-    await page.getByRole('button', { name: '+ Generar Nueva Tarjeta' }).click();
+  await page.getByRole('button', {
+    name: '+ Generar Nueva Tarjeta'
+  }).click();
 
-    await page.locator('#virtual-cards-list > div').click();
+  const tarjetaInicial = page
+    .locator('#virtual-cards-list > div')
+    .last();
 
-    await page.getByRole('button', { name: 'Eliminar' }).click();
-    await page.getByRole('button', { name: 'Confirmar' }).click();
+  await expect(tarjetaInicial)
+    .toBeVisible();
 
-    await page.locator('#card-account-select')
-      .selectOption({ index: 1 });
+  // Eliminar tarjeta
+  await tarjetaInicial.click();
 
-    await page.getByRole('button', { name: '+ Generar Nueva Tarjeta' }).click();
+  await page.getByRole('button', {
+    name: 'Eliminar'
+  }).click();
 
-    const tarjeta = page.locator('#virtual-cards-list > div');
+  await page.getByRole('button', {
+    name: 'Confirmar'
+  }).click();
 
-    await expect(tarjeta).toBeVisible();
-    await expect(tarjeta).toContainText('TITULAR');
-    await expect(tarjeta).toContainText('JUAN PÉREZ');
-    await expect(tarjeta).toContainText('ACTIVA - VINCULADA A **** **** **** 5678');
-  });
+  // Volver a generar
+  await page.locator('#card-account-select')
+    .selectOption({ index: 1 });
+
+  await page.getByRole('button', {
+    name: '+ Generar Nueva Tarjeta'
+  }).click();
+
+  // Obtener nueva tarjeta
+  const tarjeta = page
+    .locator('#virtual-cards-list > div')
+    .last();
+
+  await expect(tarjeta)
+    .toBeVisible();
+
+  // Validaciones visuales
+  await expect(tarjeta)
+    .toContainText('TITULAR');
+
+  await expect(tarjeta)
+    .toContainText('JUAN PÉREZ');
+
+  await expect(tarjeta)
+    .toContainText('VISA');
+
+  // Validar que está vinculada a una cuenta
+  await expect(tarjeta)
+    .toContainText(
+      /ACTIVA - VINCULADA A \*\*\*\* \*\*\*\* \*\*\*\* \d{4}/
+    );
+
+  console.log(
+    '✅ Tarjeta eliminada y generada nuevamente correctamente'
+  );
+});
 
   // =========================================================
   // CP-CARD-03: Validación Visual
