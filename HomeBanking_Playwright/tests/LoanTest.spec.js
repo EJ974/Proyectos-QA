@@ -83,45 +83,53 @@ test.describe('Modulo Prestamos', () => {
   // =========================================================
   test('CP-LOAN-03 - Cancelacion Total', async ({ page }) => {
 
-    await page.locator('li')
-      .filter({ hasText: 'Préstamos' })
-      .click();
+  await page.locator('li')
+    .filter({ hasText: 'Préstamos' })
+    .click();
 
-    await page.locator('#loan-amount')
-      .fill('100000');
+  await page.locator('#loan-amount')
+    .fill('100000');
 
-    await page.locator('#loan-installments')
-      .selectOption({ index: 1 });
+  await page.locator('#loan-installments')
+    .selectOption({ index: 1 });
 
-    await page.locator('#loan-form button')
-      .click();
+  await page.locator('#loan-form button')
+    .click();
 
-    const confirmar = page.getByRole('button', {
-      name: 'Confirmar'
-    });
-
-    if (await confirmar.isVisible().catch(() => false)) {
-      await confirmar.click();
-    }
-
-    const loans = page.locator('#active-loans-list');
-
-    await expect(loans)
-      .toContainText('100.000');
-
-    const pagarTotal = page.getByRole('button', {
-      name: 'Pagar Total'
-    }).first();
-
-    await pagarTotal.click();
-
-    if (await confirmar.isVisible().catch(() => false)) {
-      await confirmar.click();
-    }
-
-    await expect(loans)
-      .not.toContainText('100.000');
+  const confirmar = page.getByRole('button', {
+    name: 'Confirmar'
   });
+
+  if (await confirmar.isVisible().catch(() => false)) {
+    await confirmar.click();
+  }
+
+  const ultimoPrestamo = page
+    .locator('#active-loans-list > div')
+    .last();
+
+  await expect(ultimoPrestamo)
+    .toContainText('100.000');
+
+  await ultimoPrestamo
+    .getByRole('button', { name: 'Pagar Total' })
+    .click();
+
+  if (await confirmar.isVisible().catch(() => false)) {
+    await confirmar.click();
+  }
+
+  // Validación del toast
+  await expect(
+  page.locator('#toast-container')
+).toContainText(
+  'Préstamo cancelado exitosamente'
+);
+
+  // Validar que desapareció de la lista
+  await expect(ultimoPrestamo)
+    .not.toContainText('100.000');
+});
 
   // =========================================================
   // CP-LOAN-04 - Desistimiento

@@ -31,31 +31,29 @@ test.describe('Modulo TarjetaVirtual', () => {
   // =========================================================
   // CP-CARD-01.1: Generación y Límite Fallido
   // =========================================================
-  test('CP-CARD-01.1: Generación y Límite Fallido', async ({ page }) => {
+  test('CP-CARD-01: Generación y Límite Fallido', async ({ page }) => {
 
   await page.locator('li')
     .filter({ hasText: 'Tarjeta Virtual' })
     .click();
 
-  // Primera generación
-  await page.locator('#card-account-select')
-    .selectOption({ index: 1 });
+  for (let i = 0; i < 2; i++) {
 
-  await page.getByRole('button', {
-    name: '+ Generar Nueva Tarjeta'
-  }).click();
+    await page.locator('#card-account-select')
+      .selectOption({ index: 1 });
 
-  // Segunda generación (debe fallar)
-  await page.locator('#card-account-select')
-    .selectOption({ index: 1 });
+    await page.getByRole('button', {
+      name: '+ Generar Nueva Tarjeta'
+    }).click();
 
-  await page.getByRole('button', {
-    name: '+ Generar Nueva Tarjeta'
-  }).click();
+    await page.waitForTimeout(1000);
+  }
 
   await expect(
-    page.locator('#card-error')
-  ).toBeVisible();
+    page.locator('#toast-container')
+  ).toContainText(
+    '❌ Esta cuenta ya posee una tarjeta virtual activa.'
+  );
 });
 
   // =========================================================

@@ -88,19 +88,36 @@ test.describe('Modulo PagoServicio', () => {
     .filter({ hasText: 'Pago de Servicios' })
     .click();
 
+  // Primer pago
   await page.locator('#service-select')
     .selectOption({ index: 4 });
 
   await page.locator('#service-amount')
-    .fill('125450');
+    .fill('495000');
+
+  await page.getByRole('button', {
+    name: 'Pagar Servicio'
+  }).click();
+
+  // Esperar procesamiento del pago
+  await page.waitForTimeout(2000);
+
+  // Segundo pago
+  await page.locator('#service-select')
+    .selectOption({ index: 4 });
+
+  await page.locator('#service-amount')
+    .fill('50000');
 
   await page.getByRole('button', {
     name: 'Pagar Servicio'
   }).click();
 
   await expect(
-    page.locator('#service-error')
-  ).toBeVisible();
+    page.locator('#toast-container')
+  ).toContainText(
+    'Saldo insuficiente'
+  );
 });
 
 });
