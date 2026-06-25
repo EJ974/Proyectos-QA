@@ -3,6 +3,7 @@ name: Playwright Tests
 on:
   push:
     branches: [ main, master ]
+
   pull_request:
     branches: [ main, master ]
 
@@ -37,6 +38,10 @@ jobs:
         run: npx playwright test
         continue-on-error: true
 
+      - name: Verify report exists
+        if: always()
+        run: ls -la playwright-report
+
       - name: Upload Pages artifact
         if: always()
         uses: actions/upload-pages-artifact@v3
@@ -44,6 +49,7 @@ jobs:
           path: HomeBanking_Playwright/playwright-report
 
   deploy:
+    if: always()
     needs: test
     runs-on: ubuntu-latest
 
