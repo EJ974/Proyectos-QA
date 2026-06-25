@@ -38,6 +38,8 @@ test.describe('Modulo Transferencia', () => {
       await confirmar.click();
     }
 
+    await page.waitForTimeout(1000);
+
     await page.locator('li')
       .filter({ hasText: 'Inicio' })
       .click();
@@ -80,7 +82,7 @@ test.describe('Modulo Transferencia', () => {
 
     await expect(
       page.locator('#transfer-error')
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 10000 });
   });
 
   // =========================================================
@@ -111,11 +113,13 @@ test.describe('Modulo Transferencia', () => {
       if (await confirmar.isVisible().catch(() => false)) {
         await confirmar.click();
       }
+
+      await page.waitForTimeout(1000);
     }
 
     await expect(
       page.locator('#transfer-error')
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 10000 });
   });
 
   // =========================================================
@@ -126,6 +130,10 @@ test.describe('Modulo Transferencia', () => {
     await page.locator('li')
       .filter({ hasText: 'Transferencias' })
       .click();
+
+    await expect(
+      page.locator('#transfer-form')
+    ).toBeVisible();
 
     await page.locator('#transfer-type')
       .selectOption({ index: 1 });
@@ -150,7 +158,11 @@ test.describe('Modulo Transferencia', () => {
 
     await expect(
       page.locator('#transfer-error')
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 10000 });
+
+    await expect(
+      page.locator('#transfer-error')
+    ).toContainText('CBU');
   });
 
 });

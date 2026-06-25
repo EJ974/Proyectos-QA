@@ -41,9 +41,11 @@ test.describe('Modulo Prestamos', () => {
       await confirmar.click();
     }
 
-    await expect(
-      page.locator('#active-loans-list')
-    ).toBeVisible();
+    const ultimoPrestamo = page
+    .locator('#active-loans-list > div')
+    .last();
+
+    await expect(ultimoPrestamo).toBeVisible();
 
     await expect(
       page.locator('#active-loans-list')
