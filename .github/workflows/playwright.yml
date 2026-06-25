@@ -7,6 +7,11 @@ on:
   pull_request:
     branches: [ main, master ]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   test:
     timeout-minutes: 60
@@ -32,9 +37,20 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
+      - name: Upload report for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: playwright-report
-          path: HomeBanking_Playwright/playwright-report/
-          retention-days: 30
+          path: HomeBanking_Playwright/playwright-report
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
