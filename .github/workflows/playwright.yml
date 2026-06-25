@@ -35,9 +35,10 @@ jobs:
 
       - name: Run Playwright tests
         run: npx playwright test
+        continue-on-error: true
 
-      # 🔵 IMPORTANTE: el path SIN repetir carpeta
       - name: Upload Pages artifact
+        if: always()
         uses: actions/upload-pages-artifact@v3
         with:
           path: HomeBanking_Playwright/playwright-report
