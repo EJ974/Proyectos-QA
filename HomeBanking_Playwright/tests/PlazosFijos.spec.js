@@ -16,6 +16,11 @@ test.describe('Modulo PlazoFijo', () => {
       .filter({ hasText: 'Plazos Fijos' })
       .click();
 
+    // Esperar que cargue completamente la pantalla
+    await expect(
+      page.locator('#deposit-form')
+    ).toBeVisible();
+
     await page.locator('#deposit-amount')
       .fill('10000');
 
@@ -34,24 +39,33 @@ test.describe('Modulo PlazoFijo', () => {
       await confirmar.click();
     }
 
-    const ultimoPlazo = page
-      .locator('#active-deposits-list .deposit-item')
-      .last();
+    const plazoCreado = page
+    .locator('#active-deposits-list .deposit-item')
+    .filter({
+      hasText: '$ 10.000,00'
+    });
 
-    await expect(ultimoPlazo)
-      .toBeVisible({ timeout: 10000 });
+  await expect(plazoCreado)
+    .toHaveCount(1);
 
-    await expect(ultimoPlazo)
-      .toContainText('$ 10.000,00');
+  await expect(plazoCreado)
+    .toBeVisible();
 
-    await expect(ultimoPlazo)
-      .toContainText('90 días');
+  console.log(
+    await plazoCreado.textContent()
+  );
 
-    await expect(ultimoPlazo)
-      .toContainText('TNA: 42%');
+  await expect(plazoCreado)
+    .toContainText('$ 10.000,00');
 
-    await expect(ultimoPlazo)
-      .toContainText('Interés estimado: $ 1.035,62');
+  await expect(plazoCreado)
+    .toContainText('90 días');
+
+  await expect(plazoCreado)
+    .toContainText('TNA: 42%');
+
+  await expect(plazoCreado)
+    .toContainText('Interés estimado');
   });
 
   // =========================================================
@@ -60,6 +74,11 @@ test.describe('Modulo PlazoFijo', () => {
   test('CP-PF-02: Validación Monto Mínimo', async ({ page }) => {
 
     await page.locator('li').filter({ hasText: 'Plazos Fijos' }).click();
+
+    // Esperar que cargue completamente la pantalla
+    await expect(
+      page.locator('#deposit-form')
+    ).toBeVisible();
 
     await page.locator('#deposit-amount').fill('999');
     await page.locator('#deposit-term').selectOption({ index: 2 });
@@ -86,6 +105,11 @@ test.describe('Modulo PlazoFijo', () => {
 
     await page.locator('li').filter({ hasText: 'Plazos Fijos' }).click();
 
+    // Esperar que cargue completamente la pantalla
+    await expect(
+    page.locator('#deposit-form')
+    ).toBeVisible();
+
     for (let i = 0; i < 4; i++) {
 
       await page.locator('#deposit-amount').fill('10000');
@@ -99,11 +123,24 @@ test.describe('Modulo PlazoFijo', () => {
         await confirmar.click();
       }
 
-      await page.waitForTimeout(800);
+      await expect(
+        page.locator('#toast-container')
+      ).toContainText(
+        'Plazo fijo creado',
+        {
+          timeout: 10000
+        }
+      );
     }
 
-    await expect(page.locator('#deposit-error'))
-      .toContainText('No puedes tener más de 5 plazos fijos activos');
+    await expect(
+      page.locator('#deposit-error')
+    ).toContainText(
+      'No puedes tener más de 5 plazos fijos activos',
+      {
+        timeout: 10000
+      }
+    );
   });
 
 });

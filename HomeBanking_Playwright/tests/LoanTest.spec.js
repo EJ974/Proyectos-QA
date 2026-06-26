@@ -41,31 +41,25 @@ test.describe('Modulo Prestamos', () => {
     await confirmar.click();
   }
 
-  const ultimoPrestamo = page
+  await expect(page.locator('#toast-container'))
+  .toContainText('Préstamo acreditado exitosamente');
+
+  const prestamoCreado = page
     .locator('#active-loans-list > div')
-    .last();
+    .filter({
+      hasText: '$ 100.000,00'
+    });
 
-  await expect(ultimoPrestamo).toBeVisible();
+  await expect(prestamoCreado)
+    .toHaveCount(1);
 
-  // Logs para CI
-  console.log(
-    'Cantidad de prestamos:',
-    await page.locator('#active-loans-list > div').count()
-  );
+  await expect(prestamoCreado)
+    .toBeVisible();
 
-  console.log(
-    'Contenido ultimo prestamo:'
-  );
-
-  console.log(
-    await ultimoPrestamo.textContent()
-  );
-
-  // Validaciones
-  await expect(ultimoPrestamo)
+  await expect(prestamoCreado)
     .toContainText('100.000');
 
-  await expect(ultimoPrestamo)
+  await expect(prestamoCreado)
     .toContainText('Cuotas');
 
 });
@@ -122,6 +116,9 @@ test('CP-LOAN-03 - Cancelacion Total', async ({ page }) => {
 
   if (await confirmar.isVisible().catch(() => false)) {
     await confirmar.click();
+
+    await expect(page.locator('#toast-container'))
+    .toContainText('Préstamo acreditado exitosamente');
   }
 
   // Esperar que aparezca la lista actualizada
@@ -213,8 +210,12 @@ test('CP-LOAN-03 - Cancelacion Total', async ({ page }) => {
       name: 'Confirmar'
     });
 
+
     if (await confirmar.isVisible().catch(() => false)) {
       await confirmar.click();
+
+      await expect(page.locator('#toast-container'))
+      .toContainText('Préstamo acreditado exitosamente');
     }
 
     await expect(
@@ -246,6 +247,9 @@ test('CP-LOAN-03 - Cancelacion Total', async ({ page }) => {
 
     if (await confirmar.isVisible().catch(() => false)) {
       await confirmar.click();
+
+      await expect(page.locator('#toast-container'))
+      .toContainText('Préstamo acreditado exitosamente');
     }
 
     await page.getByRole('button', {

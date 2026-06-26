@@ -161,8 +161,10 @@ test.describe('Modulo Transferencia', () => {
     ).toBeVisible({ timeout: 10000 });
 
     await expect(
-      page.locator('#transfer-error')
-    ).toContainText('CBU');
+    page.locator('#transfer-error')
+    ).toContainText(
+      'CBU o Alias de destino no válido'
+    );
   });
 
 });
